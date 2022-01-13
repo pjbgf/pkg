@@ -3,16 +3,28 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - cache-cifuzz
 jobs:
   Fuzzing:
     runs-on: ubuntu-latest
     steps:
+    - id: cache-docker
+      uses: actions/cache@v1
+      with:
+        path: /tmp/docker-ossfuzz
+        key: docker-ossfuzz-${{ hashFiles('Dockerfile') }}
+    - run: docker load -i /tmp/docker-ossfuzz/snapshot.tar || true
+      if: steps.cache-docker.outputs.cache-hit == 'true'
     - name: Build Fuzzers
       id: build
       uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
       with:
         oss-fuzz-project-name: 'fluxcd'
         language: go
+    - run: mkdir -p /tmp/docker-ossfuzz && docker save gcr.io/oss-fuzz/fluxcd -o /tmp/docker-ossfuzz/snapshot.tar && ls -lh /tmp/docker-ossfuzz || true
+      if: always() && steps.cache-docker.outputs.cache-hit != 'true'
     - name: Run Fuzzers
       uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
       with:

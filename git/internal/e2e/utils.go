@@ -18,6 +18,7 @@ package e2e
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"io/fs"
 	"io/ioutil"
@@ -37,6 +38,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/fluxcd/pkg/git"
+	"github.com/fluxcd/pkg/git/gogit"
+	"github.com/fluxcd/pkg/git/libgit2"
 	"github.com/fluxcd/pkg/ssh"
 )
 
@@ -310,4 +313,20 @@ func initRepo(repoURL, branch, fixture, username, password string) error {
 	}
 
 	return nil
+}
+
+func newClient(gitClient, tmp string, authOptions *git.AuthOptions, insecure bool) (git.RepositoryClient, error) {
+	switch gitClient {
+	case gogit.ClientName:
+		if insecure {
+			return gogit.NewClient(tmp, authOptions, gogit.WithInsecureCredentialsOverHTTP, gogit.WithDiskStorage)
+		}
+		return gogit.NewClient(tmp, authOptions)
+	case libgit2.ClientName:
+		if insecure {
+			return libgit2.NewClient(tmp, authOptions, libgit2.WithInsecureCredentialsOverHTTP, libgit2.WithDiskStorage)
+		}
+		return libgit2.NewClient(tmp, authOptions)
+	}
+	return nil, fmt.Errorf("invalid git client name: %s", gitClient)
 }

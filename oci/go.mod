@@ -8,6 +8,8 @@ replace (
 	github.com/fluxcd/pkg/version => ../version
 )
 
+replace github.com/fluxcd/go-git/v5 => github.com/fluxcd/go-git/v5 v5.0.0-20221205151443-d0949a031704
+
 require (
 	github.com/Azure/azure-sdk-for-go/sdk/azcore v1.2.0
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.2.0

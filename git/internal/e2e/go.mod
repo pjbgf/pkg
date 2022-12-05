@@ -23,6 +23,8 @@ replace github.com/emicklei/go-restful => github.com/emicklei/go-restful v2.16.0
 // - libgit2/git2go#918.
 replace github.com/libgit2/git2go/v34 => github.com/fluxcd/git2go/v34 v34.0.0
 
+replace github.com/fluxcd/go-git/v5 => github.com/fluxcd/go-git/v5 v5.0.0-20221205151443-d0949a031704
+
 require (
 	github.com/fluxcd/go-git-providers v0.10.0
 	github.com/fluxcd/go-git/v5 v5.0.0-20221201130529-11e609450f0f

@@ -2,6 +2,8 @@ module github.com/fluxcd/pkg/sourceignore
 
 go 1.18
 
+replace github.com/fluxcd/go-git/v5 => github.com/fluxcd/go-git/v5 v5.0.0-20221205151443-d0949a031704
+
 require (
 	github.com/fluxcd/go-git/v5 v5.0.0-20221104190732-329fd6659b10
 	gotest.tools v2.2.0+incompatible

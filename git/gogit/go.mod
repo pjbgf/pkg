@@ -9,6 +9,8 @@ replace (
 	github.com/fluxcd/pkg/version => ../../version
 )
 
+replace github.com/fluxcd/go-git/v5 => github.com/fluxcd/go-git/v5 v5.0.0-20221205151443-d0949a031704
+
 require (
 	github.com/Masterminds/semver/v3 v3.1.1
 	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5
